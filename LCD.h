@@ -31,25 +31,18 @@
 
 #include "LCD_cfg.h"
 
-#define LCD_u8CLEAR      ((uint8 )0x01)
+#define LCD_u8CLEAR ((uint8)0x01)
 
+void LCD_voidInit(void);
 
+tenuErrorStatus LCD_enuWriteCmd(uint8 u8LcdNumCpy, uint8 u8CmdCpy);
 
+tenuErrorStatus LCD_enuWriteChar(uint8 u8LcdNumCpy, uint8 u8DataCpy);
 
-void LCD_voidInit(void) ;
+tenuErrorStatus LCD_enuWriteData(uint8 u8LcdNumCpy, uint8 *pu8DataCpy, uint8 u8SizeCpy);
 
-tenuErrorStatus LCD_enuWriteCmd (uint8 u8LcdNumCpy , uint8 u8CmdCpy);
+void LCD_enuWritenumber(uint8 u8LcdNumCpy, float32 pu8DataCpy);
 
-tenuErrorStatus LCD_enuWriteChar (uint8 u8LcdNumCpy , uint8 u8DataCpy);
-
-tenuErrorStatus LCD_enuWriteData (uint8 u8LcdNumCpy , uint8 *  pu8DataCpy , uint8 u8SizeCpy);
-
-tenuErrorStatus LCD_enuCreateCustChar (uint8 u8LcdNumCpy , uint8 *pu8PatternCpy , uint8 u8Location) ;
-
+tenuErrorStatus LCD_enuCreateCustChar(uint8 u8LcdNumCpy, uint8 *pu8PatternCpy, uint8 u8Location);
 
 #endif
-
-
-
-
-
