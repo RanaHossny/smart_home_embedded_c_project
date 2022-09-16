@@ -28,8 +28,8 @@
 #ifndef LCD_CFG_H
 #define LCD_CFG_H
 
-#define LCD_u8NUM_0    ((uint8) 0)
-#define LCD_u8NUM_1    ((uint8) 1)
-#define LCD_MAX_NUM    ((uint8) 2)
+#define LCD_u8NUM_0 ((uint8)0)
+#define LCD_u8NUM_1 ((uint8)1)
+#define LCD_MAX_NUM ((uint8)2)
 
 #endif
