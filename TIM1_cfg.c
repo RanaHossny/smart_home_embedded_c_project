@@ -1,10 +1,10 @@
 /**************************************************************************************/
 /**    File Name: LCD.h                                                                   */
 /**                                                                                       */
-/**  Description: Implementation of the servo contain configuration for the module*/
+/**  Description: Implementation of the TIM1 contain configuration for the module*/
 /**---------------------------------------------------------------------------------------*/
 /**  CODING LANGUAGE :  C                                                                 */
-/**  TARGET          :  Atmega32                                                 */
+/**  TARGET          :  Atmega 32                                                 */
 /**---------------------------------------------------------------------------------------*/
 /**               C O P Y R I G H T                                                       */
 /**---------------------------------------------------------------------------------------*/
@@ -23,18 +23,5 @@
 /**---------------------------------------------------------------------------------------*/
 /** Date        Version   Author         Description                                      */
 /** ----------  --------  ------      ----------------------------------------------------*/
-/** 9/16/2022      0.1 ziad Initial Creation                                 */
+/** 9/15/2022      0.1 ziad Initial Creation                                 */
 /******************************************************************************************/
-#include "STD_Types.h"
-
-//MCAL
-#include "TIM1.h"
-
-#include "servo.h"
-#include "servo_cfg.h"
-#include "servo_priv.h"
-void SERVO_voidMove(uint8 ServoNumCpy,float32 f32angleCpy)
-{
-
-	arrPtoFunc[ServoNumCpy](f32angleCpy);
-}

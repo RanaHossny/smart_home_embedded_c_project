@@ -26,15 +26,9 @@
 /** 9/16/2022      0.1 ziad Initial Creation                                 */
 /******************************************************************************************/
 #include "STD_Types.h"
-
-//MCAL
-#include "TIM1.h"
-
-#include "servo.h"
+#include "DIO.h"
 #include "servo_cfg.h"
-#include "servo_priv.h"
-void SERVO_voidMove(uint8 ServoNumCpy,float32 f32angleCpy)
-{
-
-	arrPtoFunc[ServoNumCpy](f32angleCpy);
-}
+#include "TIM1.h"
+tpfF32 arrPtoFunc[SERVO_u8MAX_NUM]= {
+		TIM1_voidPWMAGenerate// connected to OCR1A
+};

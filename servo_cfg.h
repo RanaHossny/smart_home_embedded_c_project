@@ -25,16 +25,10 @@
 /** ----------  --------  ------      ----------------------------------------------------*/
 /** 9/16/2022      0.1 ziad Initial Creation                                 */
 /******************************************************************************************/
-#include "STD_Types.h"
+#ifndef servo_CFG_H
+#define servo_CFG_H
 
-//MCAL
-#include "TIM1.h"
+#define SERVO_u8NUM_0   0
+#define SERVO_u8MAX_NUM 1
 
-#include "servo.h"
-#include "servo_cfg.h"
-#include "servo_priv.h"
-void SERVO_voidMove(uint8 ServoNumCpy,float32 f32angleCpy)
-{
-
-	arrPtoFunc[ServoNumCpy](f32angleCpy);
-}
+#endif
