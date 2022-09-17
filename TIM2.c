@@ -24,20 +24,22 @@
 /** Date        Version   Author       Description                              */
 /** ----------  --------  ------      ------------------------------------------*/
 /** 22/08/2022   0.1      SaraH     Initial Creation                             */
- 
+
 /********************************************************************************/
+
 #include "STD_Types.h"
 #include "BIT_Math.h"
 #include "TIM2.h"
 #include "TIM2_cfg.h"
 #include "TIM2_priv.h"
-#include "DIO.h"
-void TIM2_dummy_void(void);
-pf TIM2_pfCtcCallback =TIM2_dummy_void;
-pf TIM2_pfOvfCallback =TIM2_dummy_void ;
+#include "EXTINT0.h"
+void TIM2_Void_dummy(void);
+uint8 u8_up_flag=0;
+pf TIM2_pfCtcCallback =TIM2_Void_dummy;
+pf TIM2_pfOvfCallback =TIM2_Void_dummy ;
 
-uint8 u8_TIM2_used ;
-uint32 u32_counter;
+uint8 u8_used ,factor;
+uint32 counter, delay,TimerCounter;
 void TIM2_voidInit(void)
 {
 #if   TIM2_MODE == TIM2_NORMAL_MODE
@@ -59,8 +61,8 @@ void TIM2_voidInit(void)
 	TCNT2 = 0;
 	OCR2  = 0;
 	/* Disable Interrupt  OVF CM */
+	CLR_BIT(TIMSK , 5) ;
 	CLR_BIT(TIMSK , 6) ;
-	CLR_BIT(TIMSK , 7) ;
 	/* Clear IF flags OVF CM */
 	SET_BIT(TIFR  , 6) ;
 	SET_BIT(TIFR  , 7) ;
@@ -84,12 +86,12 @@ void TIM2_voidDisableOVFIntterrupt(void)
 }
 void TIM2_voidEnableCTCIntterrupt(void)
 {
-	SET_BIT(TIMSK , 7) ;
+	SET_BIT(TIMSK , 5) ;
 }
 void TIM2_voidDisableCTCIntterrupt(void)
 {
 
-	CLR_BIT(TIMSK , 7) ;
+	CLR_BIT(TIMSK , 5) ;
 }
 void TIM2_voidSetOvfCallback(pf pfOvfCallbackCpy)
 {
@@ -105,41 +107,78 @@ void TIM2_voidSetCtcCallback(pf pfCtcCallbackCpy)
 void __vector_5 (void) __attribute__((signal ,used));
 void __vector_5 (void)
 {
-	if(u8_TIM2_used!=0){
-	u32_counter++;
-}
-else{
+	if ( TIM2__u8_get_detect_up() ) {       // voltage rise was detected previously
+		TimerCounter++; // count the number of overflows
+
+		}
+	if(u8_used){
+		counter++;
+	}
+
 	TIM2_pfOvfCallback();
-}
 
 }
 /*CM ISR*/
 void __vector_4 (void) __attribute__((signal ,used));
 void __vector_4 (void)
 {
-
 		TIM2_pfCtcCallback();
+
+}
+void TIM2_voidDelay_ms(uint32 u32DalayTimeCpy)
+{
+u8_used=1;
+TIM2_voidEnableOVFIntterrupt();
+while(counter!=3);
+while(TIM2_u16GetCntrValue()!=232);
+counter=0;
+TIM2_voidDisableOVFIntterrupt();
 
 
 }
-void TIM2_voidDelayMs(uint32 u32DalayTimeCpy)
-{
-	u8_TIM2_used=1;
-	u32_counter=0;
-	TIM2_voidEnableOVFIntterrupt();
-	while(u32_counter!=3);
-	while(TIM2_u16GetCntrValue( )!=232);
-	CLR_BIT(TIMSK , 1) ;
-	u8_TIM2_used=0;
-    TIM2_voidDisableOVFIntterrupt();
+void TIM2_voidDelay_Init(void){
+#if   TIM2_MODE == TIM2_NORMAL_MODE
+	CLR_BIT(TCCR2 , 6);
+	CLR_BIT(TCCR2 , 3);
+#elif TIM2_MODE == TIM2_PWM_PHASE_CORRECT_MODE
+	SET_BIT(TCCR2 , 6);
+	CLR_BIT(TCCR2 , 3);
+#elif TIM2_MODE == TIM2_CTC_MODE
+	CLR_BIT(TCCR2 , 6);
+	SET_BIT(TCCR2 , 3);
+#else
+	SET_BIT(TCCR2 , 6);
+	SET_BIT(TCCR2 , 3);
+#endif
+	TCCR2 &= (0xF8);/* clear reg 0b1111 1000 */
+	TCCR2  |=((0x07)& TIM2_PRESCALLER_8 ) ; /* write in reg */
+	TCNT2=0x00;
+	OCR2  = 0;
 
+}
 
+void TIM2_voidSet_TimerCounter(void){
+	TimerCounter=0;
+}
+uint32 TIM2_u32get_TimerCounter(void){
+	return TimerCounter;
 }
 uint16 TIM2_u16GetCntrValue(void ){
 	return TCNT2 ;
 }
-
-
-void TIM2_dummy_void(void){
+void TIM2_voidsetCntrValue(void ){
+	 TCNT2=0 ;
+}
+uint8  TIM2__u8_get_detect_up(void){
+	return u8_up_flag;
 
 }
+void TIM2_void_set_up(void){
+	u8_up_flag=1;
+
+}
+void TIM2_void_reset_up(void){
+	u8_up_flag=0;
+
+}
+void TIM2_Void_dummy(void){}
