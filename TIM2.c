@@ -139,6 +139,7 @@ uint16 TIM2_u16GetCntrValue(void ){
 	return TCNT2 ;
 }
 
+
 void TIM2_dummy_void(void){
 
 }
