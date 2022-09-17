@@ -28,8 +28,6 @@
 #ifndef TIM1_H
 #define TIM1_H
 
-
-
 void TIM1_voidInit(void);
 
 void TIM1_voidSetPreloadValue(uint16 u8PreloadValueCpy);
@@ -56,7 +54,6 @@ void TIM1_voidSetCtcACallback(pf pfCtcCallbackCpy);
 
 void TIM1_voidSetICUCallback(pf pfCtcCallbackCpy);
 
-
 void TIM1_voidSetCtcBCallback(pf pfCtcCallbackCpy);
 
 void TIM1_voidDelayMs(uint16 u16DalayTimeCpy);
@@ -68,7 +65,6 @@ void TIM1_voidEnableICUIntterrupt(void);
 void TIM1_voidDisableICUIntterrupt(void);
 
 void TIM1_voidPWMAGenerate(float32 f32DutyCycleCpy);
+void TIM1_voidPWMBGenerate(float32 f32DutyCycleCpy);
 
 #endif
-
-
