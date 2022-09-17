@@ -39,9 +39,10 @@ void TIM0_voidEnableCTCIntterrupt(void);
 void TIM0_voidDisableCTCIntterrupt(void);
 void TIM0_voidSetOvfCallback(pf pfOvfCallbackCpy);
 void TIM0_voidSetCtcCallback(pf pfCtcCallbackCpy);
-void TIM0_voidDelayMsInit(void);
-void TIM0_voidDelayMs(uint32 u32DalayTimeCpy);
-void TIM0_voidDelayUsInit(void);
-void TIM0_voidDelayUs(uint32 u32DalayTimeCpy);
+void TIM0_voidDelay_ms(uint32 u32DalayTimeCpy);
+void TIM0_voidDelay_Init(void);
+void TIM0_voidDelay_us(uint32 u32DalayTimeCpy);
 uint16 TIM0_u16GetCntrValue(void );
+void TIM0_voidSet_TimerCounter(void);
+uint32 TIM0_u32get_TimerCounter(void);
 #endif

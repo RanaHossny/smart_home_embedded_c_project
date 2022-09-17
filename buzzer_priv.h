@@ -27,17 +27,18 @@
 /********************************************************************************/
 #ifndef BUZZER_PRIV_H
 #define BUZZER_PRIV_H
+#include "buzzer_cfg.h"
 #define BR_u8NORMAL_1PIN            ((uint8) 0x0)
 #define BR_u8NORMAL_2PIN            ((uint8) 0x1)
 #define BR_u8REVERSE_1PIN           ((uint8) 0x2)
 #define BR_u8REVERSE_2PIN           ((uint8) 0x3)
 
 typedef struct{
-	uint8 u8DioPinMap[];
+	uint8 u8DioPinMap[BUZZER_MAX_NUM];
 	uint8 u8BUZZERModeConc;
 }tstrPinMappingCfg ;
 
 extern tstrPinMappingCfg BUZZER_astrBUZZERPinMapping[BUZZER_MAX_NUM];
 
 
-
+#endif

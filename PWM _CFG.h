@@ -1,7 +1,7 @@
 /********************************************************************************/
-/**    File Name: PWM.h                                                         */
+/**    File Name: PWM_CFG.h                                                     */
 /**                                                                             */
-/**  Description: Implementation of the PWM contain configuration for the module*/
+/**  Description: Implementation of the pwm contain configuration for the module*/
 /**-----------------------------------------------------------------------------*/
 /**  CODING LANGUAGE :  C                                                       */
 /**  TARGET          :  Atmega 32                                               */
@@ -26,10 +26,11 @@
 /** 22/08/2022   0.1      Rana     Initial Creation                             */
  
 /********************************************************************************/
-#ifndef PWM_H
-#define PWM_H
-void pwm_init_void();
-void pwm_start_void();
-void pwm_stop_void();
+#ifndef PWM_CFG_H
+#define PWM_CFG_H
+
+#define DUTY_CYCLE            1/10
+#define  FREQUENCY_HZ         90000
+#define  OUTPUT_PIN        DIO_u8PIN_0        
 
 #endif

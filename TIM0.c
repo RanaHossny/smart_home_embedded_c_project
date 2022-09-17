@@ -34,12 +34,12 @@
 #include "TIM0_cfg.h"
 #include "TIM0_priv.h"
 #include "DIO.h"
-void TIM0_dummy_void(void);
-pf TIM0_pfCtcCallback =TIM0_dummy_void;
-pf TIM0_pfOvfCallback =TIM0_dummy_void ;
+void dummy_void(void);
+pf TIM0_pfCtcCallback =dummy_void;
+pf TIM0_pfOvfCallback =dummy_void ;
 
-uint8 u8_used ;
-uint32 counter;
+uint8 u8_used ,factor;
+uint32 counter, delay,TimerCounter;
 void TIM0_voidInit(void)
 {
 #if   TIM0_MODE == TIM0_NORMAL_MODE
@@ -106,41 +106,72 @@ void TIM0_voidSetCtcCallback(pf pfCtcCallbackCpy)
 /*OVF ISR*/
 void __vector_11 (void) __attribute__((signal ,used));
 void __vector_11 (void)
-{  if(u8_used!=0){
-	counter++;
-}
-else{
+{
+	if (ultrasonic_f32_get_detect_up()) {       // voltage rise was detected previously
+		TimerCounter++; // count the number of overflows
+
+		}
+
 	TIM0_pfOvfCallback();
-}
 
 }
 /*CM ISR*/
 void __vector_10 (void) __attribute__((signal ,used));
 void __vector_10 (void)
 {
-
+	if(u8_used!=0){
+		if(counter == delay*factor){
+			u8_used=0;
+			TIM0_pfCtcCallback();
+		}
+		counter++;
+	}
+	else{
 		TIM0_pfCtcCallback();
+	}
+
+}
+void TIM0_voidDelay_ms(uint32 u32DalayTimeCpy)
+{  SET_BIT(TIMSK , 1) ;
+OCR0  = 250;
+delay=u32DalayTimeCpy;
+factor=4;
+u8_used=1;
+while(counter<(delay*factor));
+CLR_BIT(TIMSK , 1) ;
+counter=0;
 
 
 }
-void TIM0_voidDelayMs(uint32 u32DalayTimeCpy)
-{
-	u8_used=1;
-	counter=0;
-	TIM0_voidEnableOVFIntterrupt();
-	while(counter!=3);
-	while(TIM0_u16GetCntrValue( )!=232);
-	CLR_BIT(TIMSK , 1) ;
-	u8_used=0;
-	counter=0;
-    TIM0_voidDisableOVFIntterrupt();
+void TIM0_voidDelay_Init(void){
+	/* TIM0_MODE == TIM0_CTC_MODE */
+	CLR_BIT(TCCR0 , 6);
+	SET_BIT(TCCR0 , 3);
+	TCCR0 &= (0xF8);/* clear reg 0b1111 1000 */
+	TCCR0  |=((0x07)& TIM0_PRESCALLER_8 ) ; /* write in reg */
+	TCNT0=0x00;
 
+}
+void TIM0_voidDelay_us(uint32 u32DalayTimeCpy)
+{  SET_BIT(TIMSK , 1) ;
+OCR0 = 1;
+delay=u32DalayTimeCpy;
+factor=1;
+u8_used=1;
+while(counter<(delay*factor));
+CLR_BIT(TIMSK , 1) ;
+counter=0;
 
+}
+void TIM0_voidSet_TimerCounter(void){
+	TimerCounter=0;
+}
+uint32 TIM0_u32get_TimerCounter(void){
+	return TimerCounter;
 }
 uint16 TIM0_u16GetCntrValue(void ){
 	return TCNT0 ;
 }
+void dummy_void(void){}
 
-void TIM0_dummy_void(void){
 
-}

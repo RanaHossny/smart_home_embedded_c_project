@@ -1,7 +1,7 @@
 /********************************************************************************/
-/**    File Name: pwm.h                                                         */
+/**    File Name: PWM.c                                                         */
 /**                                                                             */
-/**  Description: Implementation of the PWM contain configuration for the module*/
+/**  Description: Implementation of the pwm contain configuration for the module*/
 /**-----------------------------------------------------------------------------*/
 /**  CODING LANGUAGE :  C                                                       */
 /**  TARGET          :  Atmega 32                                               */
@@ -17,57 +17,43 @@
 /**-----------------------------------------------------------------------------*/
 /** ShortName    Name                      Company                              */
 /** --------     ---------------------     -------------------------------------*/
-/** saraH     Sara Hossny Hassan          ITI.                                 */
+/** Rana    Rana Hossny         ITI.                                       */
 /**-----------------------------------------------------------------------------*/
 /**               R E V I S I O N   H I S T O R Y                               */
 /**-----------------------------------------------------------------------------*/
 /** Date        Version   Author       Description                              */
 /** ----------  --------  ------      ------------------------------------------*/
-/** 6/09/2022   0.1       saraH     Initial Creation                        */
+/** 22/08/2022   0.1      Rana     Initial Creation                             */
+ 
 /********************************************************************************/
+#include <avr/delay.h>
 #include "STD_Types.h"
 #include "BIT_Math.h"
 #include "DIO.h"
 #include "TIM0.h"
-#include "TIM2.h"
-#include "pwm.h"
-#include "pwm_cfg.h"
-#include "pwm_priv.h"
-pf pf_delay_intial[NUM_OF_TIMERS]={TIM0_voidInit,TIM2_voidInit};
-tpfu32 pfu32_ms_delay[NUM_OF_TIMERS]={TIM0_voidDelayMs,TIM2_voidDelayMs};
-uint32 u32_time_on_ms;
-uint32 u32_time_off_ms;
-tenuErrorStatus Pwm_tenu_Intial (uint8 u8_num_of_pwm_cpy){
-	tenuErrorStatus tes_check_error_loc =E_OK;
-	if (u8_num_of_pwm_cpy<U8_MAX_NUM_OF_PWM){
-		pf_delay_intial[pwm_cfg[u8_num_of_pwm_cpy].u8_timer_num_loc]();
-	}
-	else{
-		tes_check_error_loc =E_NOK_PARAM_OUT_OF_RANGE;
-	}
-	return tes_check_error_loc;
+#include "PWM.h"
+#include "PWM _CFG.h"
+#include "PWM_PRIV.h"
+
+float32 f32time_on_ms ,f32time_off_ms ,f32total_time_ms;
+uint32  u32time_on_ms ,u32time_off_ms ;
+void pwm_init_void()
+{
+	f32total_time_ms= (1/FREQUENCY_HZ)*1000;
+	f32time_on_ms=f32total_time_ms *(DUTY_CYCLE);
+	u32time_on_ms= ((uint32)f32time_on_ms);
+	f32time_off_ms= f32total_time_ms-f32time_on_ms;
+	u32time_off_ms=((uint32)f32time_off_ms);
+
+	
+	
+ }
+void pwm_start_void(){
+
 }
-tenuErrorStatus Pwm_tenu_Set_freq_duty (uint8 u8_num_of_pwm_cpy ){
-	tenuErrorStatus tes_check_error_loc =E_OK;
-	if (u8_num_of_pwm_cpy<U8_MAX_NUM_OF_PWM){
-	float32 f32_total_time_loc =1/(pwm_cfg[u8_num_of_pwm_cpy].f32_freq_loc);
-	float32 f32_time_on_loc=f32_total_time_loc*pwm_cfg[u8_num_of_pwm_cpy].f32_duty_loc;
-	float32 f32_time_off_loc=f32_total_time_loc-f32_time_on_loc;
-	u32_time_on_ms=(uint32)(f32_time_on_loc*1000);
-	u32_time_off_ms=(uint32)(f32_time_off_loc*1000);
-	}
-	else{
-		tes_check_error_loc =E_NOK_PARAM_OUT_OF_RANGE;
-	}
-	return tes_check_error_loc;
-}
-void Pwm_Void_Start(uint8 u8_num_of_pwm_cpy){
-	DIO_enuWritePin(pwm_cfg[u8_num_of_pwm_cpy].u8_outpin_num_loc , DIO_u8HIGH);
-	pfu32_ms_delay[pwm_cfg[u8_num_of_pwm_cpy].u8_timer_num_loc](u32_time_on_ms);
-	DIO_enuWritePin(pwm_cfg[u8_num_of_pwm_cpy].u8_outpin_num_loc , DIO_u8LOW);
-	pfu32_ms_delay[pwm_cfg[u8_num_of_pwm_cpy].u8_timer_num_loc](u32_time_off_ms);
-}
-void Pwm_Void_End(uint8 u8_num_of_pwm_cpy){
-	DIO_enuWritePin(pwm_cfg[u8_num_of_pwm_cpy].u8_outpin_num_loc , DIO_u8LOW);
+
+
+void pwm_stop_void(){
+	DIO_enuWritePin(OUTPUT_PIN , DIO_u8LOW);
 	
 }

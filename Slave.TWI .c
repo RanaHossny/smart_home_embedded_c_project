@@ -29,7 +29,7 @@
 #include "STD_Types.h"
 
 #include "Slave_TWI.h"
-#include "Slave_priv.h"
+#include "Slave_TWI_priv.h"
 
 
 void TWI_init_slave(void) // Function to initilaize slave

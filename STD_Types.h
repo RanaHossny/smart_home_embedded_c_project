@@ -1,6 +1,7 @@
 /********************************************/
 /* Description : Standard lib for new types */
 /* Author      : Ahmed abo elnour           */
+/*               Sara Hossny                */
 /* Date        : 14/8/2022                  */
 /* Version     : 0.1V                       */
 /********************************************/
@@ -26,6 +27,11 @@ typedef enum {
 	E_NOK_PARAM_NULL_POINTER ,
 	E_NOK_CONFIG_PARM_ERROR
 }tenuErrorStatus;
+typedef enum {
+	E_OK_WRITE_DONE,
+	E_NOK_BUS_CONTENTION,
+	E_NOK_COLLISION
+}tenuErrorSpiStatus;
 
 #define NULL_PTR   ((void * )0)
 typedef void (*tpfu32) (uint32) ;

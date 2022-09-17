@@ -46,6 +46,7 @@ void ultrasonic_void_callBack(void);
 void ultrasonic_void_intial(void){
 	EXTINT0_voidSetCallBack(ultrasonic_void_callBack);
 }
+
 void ultrasonic_void_Start(void){
 	DIO_enuWritePin(ULTRASONI_TRIGGER_PIN , DIO_u8LOW);
 		 _delay_us(1);

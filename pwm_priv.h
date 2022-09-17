@@ -1,7 +1,7 @@
 /********************************************************************************/
-/**    File Name: pwm.h                                                         */
+/**    File Name: PWM_PRIV.h                                                    */
 /**                                                                             */
-/**  Description: Implementation of the PWM contain configuration for the module*/
+/**  Description: Implementation of the pwm contain configuration for the module*/
 /**-----------------------------------------------------------------------------*/
 /**  CODING LANGUAGE :  C                                                       */
 /**  TARGET          :  Atmega 32                                               */
@@ -17,26 +17,19 @@
 /**-----------------------------------------------------------------------------*/
 /** ShortName    Name                      Company                              */
 /** --------     ---------------------     -------------------------------------*/
-/** saraH     Sara Hossny Hassan          ITI.                                 */
+/** Rana    Rana Hossny         ITI.                                       */
 /**-----------------------------------------------------------------------------*/
 /**               R E V I S I O N   H I S T O R Y                               */
 /**-----------------------------------------------------------------------------*/
 /** Date        Version   Author       Description                              */
 /** ----------  --------  ------      ------------------------------------------*/
-/** 6/09/2022   0.1       saraH     Initial Creation                        */
+/** 22/08/2022   0.1      Rana     Initial Creation                             */
+ 
 /********************************************************************************/
+
+
 #ifndef PWM_PRIV_H
 #define PWM_PRIV_H
-#include "pwm_cfg.h"
-#define TIMER_0        ((uint8) 0x00  )
-#define TIMER_2        ((uint8) 0x01  )
-#define NUM_OF_TIMERS ((uint8) 0x02 )
-typedef struct {
-	uint8 u8_timer_num_loc ;
-	uint8 u8_outpin_num_loc ;
-	float32 f32_freq_loc ;
-	float32 f32_duty_loc ;
-	
-}st_pwm_cfg ;
-extern st_pwm_cfg  pwm_cfg[U8_MAX_NUM_OF_PWM];
+
+
 #endif
