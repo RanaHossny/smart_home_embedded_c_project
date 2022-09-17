@@ -32,7 +32,5 @@
 void ultrasonic_void_intial(void);
 void ultrasonic_f32_setter_distance(void);
 float32 ultrasonic_f32_get_distance(void);
-uint8 ultrasonic_f32_get_detect_up(void);
-void ultrasonic_f32_set_up(void);
 void ultrasonic_void_Start(void);
 #endif

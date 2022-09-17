@@ -31,7 +31,8 @@
 
 #ifndef ULTRASONIC_CFG_H_
 #define ULTRASONIC_CFG_H_
-#define ULTRASONI_TRIGGER_PIN    0
+#define ULTRASONI_TRIGGER_PIN    DIO_u8PIN_0
+
 
 
 #endif

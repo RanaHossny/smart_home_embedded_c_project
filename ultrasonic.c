@@ -46,7 +46,6 @@ void ultrasonic_void_callBack(void);
 void ultrasonic_void_intial(void){
 	EXTINT0_voidSetCallBack(ultrasonic_void_callBack);
 }
-
 void ultrasonic_void_Start(void){
 	DIO_enuWritePin(ULTRASONI_TRIGGER_PIN , DIO_u8LOW);
 		 _delay_us(1);
@@ -60,27 +59,20 @@ void ultrasonic_void_Start(void){
 void ultrasonic_void_callBack(void)
 {
         if (start_flag) { //accept interrupts only when sonar was started
-                if (up == 0) { // voltage rise, start time measurement
+                if (TIM0__u8_get_detect_up() == 0) { // voltage rise, start time measurement
                     start = TIM0_u16GetCntrValue();
                     TIM0_voidSet_TimerCounter();
-                	    up = 1;
+                	    TIM0_void_set_up() ;
                         result=0;
                 } else {
                         // voltage drop, stop time measurement
-                        up = 0;
+                        TIM0_void_reset_up();
                         result =((TIM0_u16GetCntrValue()+(TIM0_u32get_TimerCounter())*256-start)/58)*0.1255;
                         start_flag=0;
                 }
         }
 }
-uint8 ultrasonic_f32_get_detect_up(void){
-	return up;
 
-}
-void ultrasonic_f32_set_up(void){
-	 up=0;
-
-}
 float32 ultrasonic_f32_get_distance(void){
 	return result;
 }
