@@ -111,6 +111,9 @@ void __vector_11 (void)
 		TimerCounter++; // count the number of overflows
 
 		}
+	if(u8_used){
+		counter++;
+	}
 
 	TIM0_pfOvfCallback();
 
@@ -119,50 +122,41 @@ void __vector_11 (void)
 void __vector_10 (void) __attribute__((signal ,used));
 void __vector_10 (void)
 {
-	if(u8_used!=0){
-		if(counter == delay*factor){
-			u8_used=0;
-			TIM0_pfCtcCallback();
-		}
-		counter++;
-	}
-	else{
 		TIM0_pfCtcCallback();
-	}
 
 }
 void TIM0_voidDelay_ms(uint32 u32DalayTimeCpy)
-{  SET_BIT(TIMSK , 1) ;
-OCR0  = 250;
-delay=u32DalayTimeCpy;
-factor=4;
+{
 u8_used=1;
-while(counter<(delay*factor));
-CLR_BIT(TIMSK , 1) ;
+TIM0_voidEnableOVFIntterrupt();
+while(counter!=3);
+while(TIM0_u16GetCntrValue()!=232);
 counter=0;
+TIM0_voidDisableOVFIntterrupt();
 
 
 }
 void TIM0_voidDelay_Init(void){
-	/* TIM0_MODE == TIM0_CTC_MODE */
+#if   TIM0_MODE == TIM0_NORMAL_MODE
+	CLR_BIT(TCCR0 , 6);
+	CLR_BIT(TCCR0 , 3);
+#elif TIM0_MODE == TIM0_PWM_PHASE_CORRECT_MODE
+	SET_BIT(TCCR0 , 6);
+	CLR_BIT(TCCR0 , 3);
+#elif TIM0_MODE == TIM0_CTC_MODE
 	CLR_BIT(TCCR0 , 6);
 	SET_BIT(TCCR0 , 3);
+#else
+	SET_BIT(TCCR0 , 6);
+	SET_BIT(TCCR0 , 3);
+#endif
 	TCCR0 &= (0xF8);/* clear reg 0b1111 1000 */
 	TCCR0  |=((0x07)& TIM0_PRESCALLER_8 ) ; /* write in reg */
 	TCNT0=0x00;
+	OCR0  = 0;
 
 }
-void TIM0_voidDelay_us(uint32 u32DalayTimeCpy)
-{  SET_BIT(TIMSK , 1) ;
-OCR0 = 1;
-delay=u32DalayTimeCpy;
-factor=1;
-u8_used=1;
-while(counter<(delay*factor));
-CLR_BIT(TIMSK , 1) ;
-counter=0;
 
-}
 void TIM0_voidSet_TimerCounter(void){
 	TimerCounter=0;
 }
@@ -171,6 +165,9 @@ uint32 TIM0_u32get_TimerCounter(void){
 }
 uint16 TIM0_u16GetCntrValue(void ){
 	return TCNT0 ;
+}
+void TIM0_voidsetCntrValue(void ){
+	 TCNT0=0 ;
 }
 uint8  TIM0__u8_get_detect_up(void){
 	return u8_up_flag;

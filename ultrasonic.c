@@ -47,6 +47,7 @@ void ultrasonic_void_intial(void){
 	EXTINT0_voidSetCallBack(ultrasonic_void_callBack);
 }
 void ultrasonic_void_Start(void){
+	 EXTINT0_voidEnable();
 	DIO_enuWritePin(ULTRASONI_TRIGGER_PIN , DIO_u8LOW);
 		 _delay_us(1);
 	 DIO_enuWritePin(ULTRASONI_TRIGGER_PIN  , DIO_u8HIGH);
@@ -60,15 +61,18 @@ void ultrasonic_void_callBack(void)
 {
         if (start_flag) { //accept interrupts only when sonar was started
                 if (TIM0__u8_get_detect_up() == 0) { // voltage rise, start time measurement
-                    start = TIM0_u16GetCntrValue();
+                	TIM0_voidsetCntrValue();
                     TIM0_voidSet_TimerCounter();
                 	    TIM0_void_set_up() ;
                         result=0;
+                        TIM0_voidEnableOVFIntterrupt();
                 } else {
                         // voltage drop, stop time measurement
+                	 result =(TIM0_u16GetCntrValue()+(TIM0_u32get_TimerCounter()*256))*0.00216;
                         TIM0_void_reset_up();
-                        result =((TIM0_u16GetCntrValue()+(TIM0_u32get_TimerCounter())*256-start)/58)*0.1255;
                         start_flag=0;
+                        TIM0_voidDisableOVFIntterrupt();
+                        EXTINT0_voidDisable();
                 }
         }
 }
