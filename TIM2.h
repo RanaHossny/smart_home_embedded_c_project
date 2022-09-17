@@ -38,9 +38,6 @@ void TIM2_voidEnableCTCIntterrupt(void);
 void TIM2_voidDisableCTCIntterrupt(void);
 void TIM2_voidSetOvfCallback(pf pfOvfCallbackCpy);
 void TIM2_voidSetCtcCallback(pf pfCtcCallbackCpy);
-void TIM2_voidDelayMsInit(void);
 void TIM2_voidDelayMs(uint32 u32DalayTimeCpy);
-void TIM2_voidDelayUsInit(void);
-void TIM2_voidDelayUs(uint32 u32DalayTimeCpy);
 uint16 TIM2_u16GetCntrValue(void );
 #endif
