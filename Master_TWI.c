@@ -31,7 +31,7 @@
 
 
 #include "Master_TWI.h"
-#include "Master_priv.h"
+#include "Master_TWI_priv.h"
 
 void TWI_repeated_start(void)
 {

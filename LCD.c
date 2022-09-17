@@ -235,3 +235,9 @@ tenuErrorStatus LCD_enuCreateCustChar(uint8 u8LcdNumCpy, uint8 *pu8PatternCpy, u
 
 	return enuErrorStateLoc;
 }
+tenuErrorStatus LCD_enuWriteData(uint8 u8LcdNumCpy, uint8 *pu8DataCpy, uint8 u8SizeCpy){
+	uint8 i;
+	for(i=0;i<u8SizeCpy;i++){
+		LCD_enuWriteChar(u8LcdNumCpy,pu8DataCpy[i]);
+	}
+}
