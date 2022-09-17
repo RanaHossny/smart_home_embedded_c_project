@@ -1,7 +1,7 @@
 /********************************************************************************/
-/**    File Name: MASTER_TWI_PRIV.h                                                   */
+/**    File Name: RELAY.h                                                         */
 /**                                                                             */
-/**  Description: Implementation of the SPI contain configuration for the module*/
+/**  Description: Implementation of the RELAY contain configuration for the module*/
 /**-----------------------------------------------------------------------------*/
 /**  CODING LANGUAGE :  C                                                       */
 /**  TARGET          :  Atmega 32                                               */
@@ -17,38 +17,18 @@
 /**-----------------------------------------------------------------------------*/
 /** ShortName    Name                      Company                              */
 /** --------     ---------------------     -------------------------------------*/
-/** Rana    Rana Hossny         ITI.                                       */
+/** SaraH     Sara Hossny         ITI.                                       */
 /**-----------------------------------------------------------------------------*/
 /**               R E V I S I O N   H I S T O R Y                               */
 /**-----------------------------------------------------------------------------*/
 /** Date        Version   Author       Description                              */
 /** ----------  --------  ------      ------------------------------------------*/
-/** 14/09/2022   0.1      Rana     Initial Creation                             */
+/** 22/08/2022   0.1      SaraH     Initial Creation                             */
  
 /********************************************************************************/
-
-
-#ifndef MASTER_TWI_PRIV_H
-#define MASTER_TWI_PRIV_H
-
-
-						    
-#define TWEN                 ((uint8)2)
-#define TWSTA                ((uint8)5)
-#define TWSTO                ((uint8)4)
-#define TWEA                 ((uint8)6)
-#define TWINT                ((uint8)7)
-
-
-
-
-#define TWCR                 *((volatile uint8 *)0x56)
-#define TWDR                 *((volatile uint8 *)0x23)
-#define TWAR                 *((volatile uint8 *)0x22)
-#define TWSR                 *((volatile uint8 *)0x21)
-#define TWBR                 *((volatile uint8 *)0x20)
-
-
-
+#ifndef RELAY_PRIV_H
+#define RELAY_PRIV_H
+#include "RELAY_cfg.h"
+extern uint8 u8RelayPinMapping[RELAY_MAX_NUM];
 
 #endif

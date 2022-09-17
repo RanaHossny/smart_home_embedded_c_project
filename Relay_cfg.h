@@ -1,7 +1,7 @@
 /********************************************************************************/
-/**    File Name: SLAVE_TWI.h                                                       */
+/**    File Name: RELAY.h                                                         */
 /**                                                                             */
-/**  Description: Implementation of the TWI contain configuration for the module*/
+/**  Description: Implementation of the RELAY contain configuration for the module*/
 /**-----------------------------------------------------------------------------*/
 /**  CODING LANGUAGE :  C                                                       */
 /**  TARGET          :  Atmega 32                                               */
@@ -17,25 +17,26 @@
 /**-----------------------------------------------------------------------------*/
 /** ShortName    Name                      Company                              */
 /** --------     ---------------------     -------------------------------------*/
-/** Rana    Rana Hossny         ITI.                                       */
+/** SaraH     Sara Hossny         ITI.                                       */
 /**-----------------------------------------------------------------------------*/
 /**               R E V I S I O N   H I S T O R Y                               */
 /**-----------------------------------------------------------------------------*/
 /** Date        Version   Author       Description                              */
 /** ----------  --------  ------      ------------------------------------------*/
-/** 14/09/2022   0.1      Rana     Initial Creation                             */
+/** 22/08/2022   0.1      SaraH     Initial Creation                             */
  
 /********************************************************************************/
+#ifndef RELAY_CFG_H
+#define RELAY_CFG_H
 
-#ifndef SLAVE_TWI_H
-#define SLAVE_TWI_H
+#define RELAY_u8NUM_0     ((uint8 ) 0)
+#define RELAY_u8NUM_1     ((uint8 ) 1)
+#define RELAY_u8NUM_2     ((uint8 ) 2)
+#define RELAY_u8NUM_3     ((uint8 ) 3)
+#define RELAY_u8NUM_4     ((uint8 ) 4)
 
-void TWI_init_slave(void);
-void TWI_write_slave(uint8 data);
-uint8 TWI_read_slave(void);
-void TWI_match_read_slave(void);
-void TWI_match_write_slave(void);
-
+#define RELAY_MAX_NUM     ((uint8) 5)
 
 
 #endif
+

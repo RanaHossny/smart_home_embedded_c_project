@@ -1,7 +1,7 @@
 /********************************************************************************/
-/**    File Name: Slave_TWI.c                                                         */
+/**    File Name: RELAY.h                                                         */
 /**                                                                             */
-/**  Description: Implementation of the TWI contain configuration for the module*/
+/**  Description: Implementation of the RELAY contain configuration for the module*/
 /**-----------------------------------------------------------------------------*/
 /**  CODING LANGUAGE :  C                                                       */
 /**  TARGET          :  Atmega 32                                               */
@@ -17,56 +17,41 @@
 /**-----------------------------------------------------------------------------*/
 /** ShortName    Name                      Company                              */
 /** --------     ---------------------     -------------------------------------*/
-/** Rana    Rana Hossny         ITI.                                       */
+/** SaraH     Sara Hossny         ITI.                                       */
 /**-----------------------------------------------------------------------------*/
 /**               R E V I S I O N   H I S T O R Y                               */
 /**-----------------------------------------------------------------------------*/
 /** Date        Version   Author       Description                              */
 /** ----------  --------  ------      ------------------------------------------*/
-/** 14/09/2022   0.1      Rana     Initial Creation                             */
+/** 22/08/2022   0.1      SaraH     Initial Creation                             */
  
 /********************************************************************************/
 #include "STD_Types.h"
 
-#include "Slave_TWI.h"
-#include "Slave_priv.h"
+#include "DIO.h"
+#include "RELAY.h"
+#include "RELAY_cfg.h"
+#include "RELAY_priv.h"
 
 
-void TWI_init_slave(void) // Function to initilaize slave
-{
-    TWAR=0x20;    // Fill slave address to TWAR
+tenuErrorStatus tenu_Relay_enu_on (uint8 u8RelayNumCpy ){
+	tenuErrorStatus error = E_OK;
+		if(u8RelayNumCpy<RELAY_MAX_NUM){
+			DIO_enuWritePin(u8RelayNumCpy , DIO_u8HIGH);
+		}
+		else{
+			error=E_NOK_PARAM_OUT_OF_RANGE;
+		}		
+		
 }
-void TWI_match_read_slave(void) //Function to match the slave address and slave dirction bit(read)
-{
-    while((TWSR & 0xF8)!= 0x60)  // Loop till correct acknoledgement have been received
-    {
-        // Get acknowlegement, Enable TWI, Clear TWI interrupt flag
-        TWCR=(1<<TWEA)|(1<<TWEN)|(1<<TWINT);
-        while (!(TWCR & (1<<TWINT)));  // Wait for TWINT flag
-    }
-}
-uint8 TWI_read_slave(void)
-{
-    // Clear TWI interrupt flag,Get acknowlegement, Enable TWI
-    TWCR= (1<<TWINT)|(1<<TWEA)|(1<<TWEN);
-    while (!(TWCR & (1<<TWINT)));    // Wait for TWINT flag
-    while((TWSR & 0xF8)!=0x80);        // Wait for acknowledgement
-    return TWDR;                    // Get value from TWDR
-                  // send the receive value on PORTB
-}
-void TWI_match_write_slave(void) //Function to match the slave address and slave dirction bit(write)
-{
-    while((TWSR & 0xF8)!= 0xA8)    // Loop till correct acknoledgement have been received
-    {
-        // Get acknowlegement, Enable TWI, Clear TWI interrupt flag
-        TWCR=(1<<TWEA)|(1<<TWEN)|(1<<TWINT);
-        while (!(TWCR & (1<<TWINT)));  // Wait for TWINT flag
-    }
+tenuErrorStatus tenu_Relay_enu_off (uint8 u8RelayNumCpy ){
+	tenuErrorStatus error = E_OK;
+		if(u8RelayNumCpy<RELAY_MAX_NUM){
+			DIO_enuWritePin(u8RelayNumCpy , DIO_u8LOW);
+		}
+		else{
+			error=E_NOK_PARAM_OUT_OF_RANGE;
+		}		
+		
 }
 
-void TWI_write_slave(uint8 write_data) // Function to write data
-{
-    TWDR= write_data;              // Fill TWDR register whith the data to be sent
-    TWCR= (1<<TWEN)|(1<<TWINT);   // Enable TWI, Clear TWI interrupt flag
-    while((TWSR & 0xF8) != 0xC0); // Wait for the acknowledgement
-}
