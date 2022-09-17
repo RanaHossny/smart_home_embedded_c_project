@@ -31,9 +31,15 @@
 
 
 #include "Master_TWI.h"
-#include "Master_TWI_priv.h"
+#include "Master_priv.h"
 
-
+void TWI_repeated_start(void)
+{
+// Clear TWI interrupt flag, Put start condition on SDA, Enable TWI
+TWCR= (1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
+while(!(TWCR & (1<<TWINT))); // wait till restart condition is transmitted
+while((TWSR & 0xF8)!= 0x10); // Check for the acknoledgement
+}
 void TWI_init_master(void) // Function to initialize master
 {
 
