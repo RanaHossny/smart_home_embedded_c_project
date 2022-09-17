@@ -1,7 +1,7 @@
 /********************************************************************************/
-/**    File Name: PWM_CFG.h                                                     */
+/**    File Name: pwm.h                                                         */
 /**                                                                             */
-/**  Description: Implementation of the pwm contain configuration for the module*/
+/**  Description: Implementation of the PWM contain configuration for the module*/
 /**-----------------------------------------------------------------------------*/
 /**  CODING LANGUAGE :  C                                                       */
 /**  TARGET          :  Atmega 32                                               */
@@ -17,20 +17,23 @@
 /**-----------------------------------------------------------------------------*/
 /** ShortName    Name                      Company                              */
 /** --------     ---------------------     -------------------------------------*/
-/** Rana    Rana Hossny         ITI.                                       */
+/** saraH     Sara Hossny Hassan          ITI.                                 */
 /**-----------------------------------------------------------------------------*/
 /**               R E V I S I O N   H I S T O R Y                               */
 /**-----------------------------------------------------------------------------*/
 /** Date        Version   Author       Description                              */
 /** ----------  --------  ------      ------------------------------------------*/
-/** 22/08/2022   0.1      Rana     Initial Creation                             */
- 
+/** 6/09/2022   0.1       saraH     Initial Creation                        */
 /********************************************************************************/
-#ifndef PWM_CFG_H
-#define PWM_CFG_H
 
-#define DUTY_CYCLE            1/10
-#define  FREQUENCY_HZ         90000
-#define  OUTPUT_PIN        DIO_u8PIN_0        
 
-#endif
+
+#include "STD_Types.h"
+#include "BIT_Math.h"
+#include "DIO.h"
+#include "pwm_cfg.h"
+#include "pwm_priv.h"
+
+st_pwm_cfg  pwm_cfg[U8_MAX_NUM_OF_PWM]={
+	{TIMER_2 ,DIO_u8PIN_0,30000,1/10}
+};

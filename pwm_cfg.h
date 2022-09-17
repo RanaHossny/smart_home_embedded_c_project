@@ -25,18 +25,8 @@
 /** ----------  --------  ------      ------------------------------------------*/
 /** 6/09/2022   0.1       saraH     Initial Creation                        */
 /********************************************************************************/
-#ifndef PWM_PRIV_H
-#define PWM_PRIV_H
-#include "pwm_cfg.h"
-#define TIMER_0        ((uint8) 0x00  )
-#define TIMER_2        ((uint8) 0x01  )
-#define NUM_OF_TIMERS ((uint8) 0x02 )
-typedef struct {
-	uint8 u8_timer_num_loc ;
-	uint8 u8_outpin_num_loc ;
-	float32 f32_freq_loc ;
-	float32 f32_duty_loc ;
-	
-}st_pwm_cfg ;
-extern st_pwm_cfg  pwm_cfg[U8_MAX_NUM_OF_PWM];
+#ifndef PWM_CFG_H
+#define PWM_CFG_H
+#define U8_PWM_num0        ((uint8) 0x00 )
+#define U8_MAX_NUM_OF_PWM  ((uint8) 0x01 )
 #endif
