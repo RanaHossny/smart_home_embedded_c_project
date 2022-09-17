@@ -1,5 +1,5 @@
 /********************************************************************************/
-/**    File Name: TIM0.c                                                        */
+/**    File Name: TIM0.c                                                         */
 /**                                                                             */
 /**  Description: Implementation of the TIM0 contain configuration for the module*/
 /**-----------------------------------------------------------------------------*/
@@ -17,26 +17,26 @@
 /**-----------------------------------------------------------------------------*/
 /** ShortName    Name                      Company                              */
 /** --------     ---------------------     -------------------------------------*/
-/** SaraH    Sara Hossny         ITI.                                       */
+/** Rana    Rana Hossny         ITI.                                       */
 /**-----------------------------------------------------------------------------*/
 /**               R E V I S I O N   H I S T O R Y                               */
 /**-----------------------------------------------------------------------------*/
 /** Date        Version   Author       Description                              */
 /** ----------  --------  ------      ------------------------------------------*/
-/** 22/08/2022   0.1      SaraH     Initial Creation                             */
+/** 22/08/2022   0.1      Rana     Initial Creation                             */
 
 /********************************************************************************/
-
 
 #include "STD_Types.h"
 #include "BIT_Math.h"
 #include "TIM0.h"
 #include "TIM0_cfg.h"
 #include "TIM0_priv.h"
-#include "DIO.h"
-void dummy_void(void);
-pf TIM0_pfCtcCallback =dummy_void;
-pf TIM0_pfOvfCallback =dummy_void ;
+#include "EXTINT0.h"
+void TIM0_Void_dummy(void);
+uint8 u8_up_flag=0;
+pf TIM0_pfCtcCallback =TIM0_Void_dummy;
+pf TIM0_pfOvfCallback =TIM0_Void_dummy ;
 
 uint8 u8_used ,factor;
 uint32 counter, delay,TimerCounter;
@@ -106,8 +106,8 @@ void TIM0_voidSetCtcCallback(pf pfCtcCallbackCpy)
 /*OVF ISR*/
 void __vector_11 (void) __attribute__((signal ,used));
 void __vector_11 (void)
-{
-	if (ultrasonic_f32_get_detect_up()) {       // voltage rise was detected previously
+{  
+	if ( TIM0__u8_get_detect_up() ) {       // voltage rise was detected previously
 		TimerCounter++; // count the number of overflows
 
 		}
@@ -172,6 +172,16 @@ uint32 TIM0_u32get_TimerCounter(void){
 uint16 TIM0_u16GetCntrValue(void ){
 	return TCNT0 ;
 }
-void dummy_void(void){}
+uint8  TIM0__u8_get_detect_up(void){
+	return u8_up_flag;
 
+}
+void TIM0_void_set_up(void){
+	u8_up_flag=1;
 
+}
+void TIM0_void_reset_up(void){
+	u8_up_flag=0;
+
+}
+void TIM0_Void_dummy(void){}
