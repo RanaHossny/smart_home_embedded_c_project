@@ -1,5 +1,6 @@
+
 /********************************************************************************/
-/**    File Name: SPI.h                                                         */
+/**    File Name: spi.h                                                         */
 /**  Description: Implementation of the TIM0 contain configuration for the module*/
 /**-----------------------------------------------------------------------------*/
 /**  CODING LANGUAGE :  C                                                       */
@@ -26,29 +27,17 @@
 
 /********************************************************************************/
 
-#ifndef SPI_H
-#define SPI_H
-typedef enum {
-	WRITE_DONE ,
-	WRITE_PENDING,
-	WRITE_NOT_DONE , 
-    IDLE	
-}tenuWriteState;
 
-#define SPI_INT_ENABLE    1
-#define SPI_INT_DISABLE   0
-
-
-void SPI_voidInit(void);
-
-void SPI_u8DataTransfer_Sync(uint8 u8DataCpy);
-
-void SPI_voidWriteData_Async(uint8 u8DataCpy);
-
-tenuWriteState SPI_enuWriteStatus_Async(void);
-
-uint8 SPI_u8ReadData_Async(void);
-
-void SPI_voidSetInterruptState(uint8 u8IntStateCpy);
-
+#ifndef SPI_H_
+#define SPI_H_
+void spi_void_intial(void);
+uint8 SPI_u8DataTransfer_Sync(uint8 u8DataCpy);
+void spi_void_read_Syc(uint8 * u8_value_cpy);
+uint8 spi_uint8_read_Asyc(void);
+void spi_void_write_Syc(uint8 u8_value_cpy);
+void spi_void_enable(void);
+void spi_void_disable(void );
+void spi_void_InterputEnable(void);
+void spi_void_InterputDisable(void );
+tenuErrorSpiStatus spi_tenuspi_state(void);
 #endif
