@@ -1,5 +1,6 @@
+
 /********************************************************************************/
-/**    File Name: SPI.c                                                         */
+/**    File Name: spi_cfg.h                                                         */
 /**  Description: Implementation of the TIM0 contain configuration for the module*/
 /**-----------------------------------------------------------------------------*/
 /**  CODING LANGUAGE :  C                                                       */
@@ -25,20 +26,18 @@
 /** 22/08/2022   0.1      SaraH     Initial Creation                             */
 
 /********************************************************************************/
-#ifndef SPI_CFG_H_
-#define SPI_CFG_H_
 
 
-/*  LSB_FIRST      MSB_FIRST */
-#define DATA_ORDER   LSB_FIRST
-/*  MASTER      SLAVE       */
-#define SPI_STATE    SLAVE
-/* LEADING_RISING  LEADING_FAILING */
-#define SPI_CLK_POLARITY  LEADING_FAILING
-/* LEADING_SAMPLE   LEADING_SETUP */
-#define SPI_CLK_PHASE  LEADING_SETUP
-#if SPI_STATE==MASTER
-/* FREQ_DIV_2   FREQ_DIV_4  FREQ_DIV_8  FREQ_DIV_16  FREQ_DIV_32  FREQ_DIV_64  FREQ_DIV_128*/
-#define SCK_FREQUENCY  FREQ_DIV_8
-#endif
+#ifndef SPI_CFG_H
+#define SPI_CFG_H
+
+
+#define SPI_MODE             SPI_MASTER_MODE
+#define SPI_CLK_IDLE_STATE   SPI_CLK_IDLE_HIGH
+#define SPI_PHASE_MODE       SPI_PHASE_SETUP_LEADING
+#define SPI_DOR_STATE        SPI_DOR_LSB_FIRST
+
+#if  SPI_MODE == SPI_MASTER_MODE	
+#define SPI_GEN_CLK     SPI_FREQ_DIV_16
+#endif 
 #endif
