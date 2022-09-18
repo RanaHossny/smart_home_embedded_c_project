@@ -1,6 +1,5 @@
-
 /********************************************************************************/
-/**    File Name: spi_cfg.h                                                         */
+/**    File Name: SPI.h                                                         */
 /**  Description: Implementation of the TIM0 contain configuration for the module*/
 /**-----------------------------------------------------------------------------*/
 /**  CODING LANGUAGE :  C                                                       */

@@ -1,6 +1,6 @@
-
+#include "STD_Types.h"
 /********************************************************************************/
-/**    File Name: spi.c                                                       */
+/**    File Name: SPI.h                                                         */
 /**  Description: Implementation of the TIM0 contain configuration for the module*/
 /**-----------------------------------------------------------------------------*/
 /**  CODING LANGUAGE :  C                                                       */
@@ -27,8 +27,6 @@
 
 /********************************************************************************/
 
-
-#include "STD_Types.h"
 #include "BIT_MATH.h"
 #include "spi.h"
 #include "spi_cfg.h"

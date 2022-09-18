@@ -1,6 +1,5 @@
-
 /********************************************************************************/
-/**    File Name: spi_priv.h                                                         */
+/**    File Name: SPI.h                                                         */
 /**  Description: Implementation of the TIM0 contain configuration for the module*/
 /**-----------------------------------------------------------------------------*/
 /**  CODING LANGUAGE :  C                                                       */
@@ -26,7 +25,6 @@
 /** 22/08/2022   0.1      SaraH     Initial Creation                             */
 
 /********************************************************************************/
-
 
 #ifndef SPI_PRIV_H_
 #define SPI_PRIV_H_
