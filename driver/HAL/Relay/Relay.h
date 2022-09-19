@@ -30,7 +30,7 @@
 #define RELAY_H
 #define  RELAY_PRESSED    ((uint8) 1)
 #define  RELAY_NOT_PRESSED    ((uint8) 0)
-#include "RELAY_cfg.h"
+#include "Relay_cfg.h"
 tenuErrorStatus tenu_Relay_enu_on (uint8 u8RelayNumCpy );
 tenuErrorStatus tenu_Relay_enu_off (uint8 u8RelayNumCpy );
 #endif

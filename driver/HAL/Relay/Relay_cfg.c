@@ -28,8 +28,8 @@
 /********************************************************************************/
 #include "STD_Types.h"
 #include "DIO.h"
-#include "RELAY_cfg.h"
-#include "RELAY_priv.h"
+#include "Relay_cfg.h"
+#include "Relay_priv.h"
 uint8 u8RelayPinMapping[RELAY_MAX_NUM]={DIO_u8PIN_0,DIO_u8PIN_5,DIO_u8PIN_15,DIO_u8PIN_22,DIO_u8PIN_31};
 
 

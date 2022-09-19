@@ -29,9 +29,9 @@
 #include "STD_Types.h"
 
 #include "DIO.h"
-#include "RELAY.h"
-#include "RELAY_cfg.h"
-#include "RELAY_priv.h"
+#include "Relay.h"
+#include "Relay_cfg.h"
+#include "Relay_priv.h"
 
 
 tenuErrorStatus tenu_Relay_enu_on (uint8 u8RelayNumCpy ){
