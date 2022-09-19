@@ -1,6 +1,14 @@
 /*
  * main.c
  *
+ *  Created on: Sep 19, 2022
+ *      Author: Ziad
+ */
+
+
+/*
+ * main.c
+ *
  *  Created on: Sep 16, 2022
  *      Author: Ziad
  */
@@ -36,9 +44,12 @@ int main(void)
 	ADC_voidEnable();
 	TIM1_voidInit();
 	LCD_voidInit();
+	DIO_enuPullWrite(DIO_u8PIN_25,DIO_u8ACTIVATE);
 
 	uint16 u16ReadedValLoc=15;
 	uint16 u16ReadedValLocprev=15;
+
+	uint8 u8ReadButton = 1;
 
 	float32 f32VoltLoc;
 	uint8 u8CntrLoc = 0;
@@ -51,17 +62,32 @@ int main(void)
 	}
 	uint8 s3[] = "TEMP: ";
 
-	display_String(s3,0x80);
+
 	//keep blocking untill the door is opened
 
 	uint8 s[] = " Value: ";
 	uint8 s1[] = "Volt: ";
 
-	display_String(s1,0xc0);
+
 
 
 	while(1)
 	{
+		DIO_enuReadPin(DIO_u8PIN_25,&u8ReadButton);
+		if(u8ReadButton == 0)
+		{
+			tenu_Relay_enu_off(RELAY_u8NUM_0);
+			LCD_enuWriteCmd(LCD_u8NUM_0,LCD_u8CLEAR);
+
+			LED_enuWriteValue(LED_u8NUM_0,LED_u8OFF);
+			LED_enuWriteValue(LED_u8NUM_1,LED_u8OFF);
+			LED_enuWriteValue(LED_u8NUM_2,LED_u8OFF);
+			while(u8ReadButton == 0)
+			{
+				DIO_enuReadPin(DIO_u8PIN_25,&u8ReadButton);
+			}
+
+		}
 		//switch to LDR
 		ADC_voidPinSwitch(0);
 		_delay_ms(100);
@@ -93,7 +119,7 @@ int main(void)
 			LED_enuWriteValue(LED_u8NUM_1,LED_u8OFF);
 			LED_enuWriteValue(LED_u8NUM_2,LED_u8OFF);
 		}
-
+		display_String(s1,0xc0);
 		LCD_enuWriteCmd(LCD_u8NUM_0,0xC0+6);
 		LCD_enuWritenumber(LCD_u8NUM_0,f32VoltLoc);
 		if(u16ReadedValLocprev != u16ReadedValLoc)
@@ -105,6 +131,7 @@ int main(void)
 
 		u16data = ADC_u16ReadSync();
 		u32data = ADC_f32NumtoVolt(u16data);
+		display_String(s3,0x80);
 		LCD_enuWriteCmd(LCD_u8NUM_0,0x80+6);
 		LCD_enuWritenumber(LCD_u8NUM_0,(uint8)(u32data * 100));
 		if((uint8)(u32data * 100) > 28)

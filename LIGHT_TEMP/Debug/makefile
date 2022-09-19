@@ -30,47 +30,47 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 LSS += \
-ADC.lss \
+LIGHT_TEMP.lss \
 
 FLASH_IMAGE += \
-ADC.hex \
+LIGHT_TEMP.hex \
 
 SIZEDUMMY += \
 sizedummy \
 
 
 # All Target
-all: ADC.elf secondary-outputs
+all: LIGHT_TEMP.elf secondary-outputs
 
 # Tool invocations
-ADC.elf: $(OBJS) $(USER_OBJS)
+LIGHT_TEMP.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: AVR C Linker'
-	avr-gcc -Wl,-Map,ADC.map -mmcu=atmega32 -o "ADC.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	avr-gcc -Wl,-Map,LIGHT_TEMP.map -mmcu=atmega32 -o "LIGHT_TEMP.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-ADC.lss: ADC.elf
+LIGHT_TEMP.lss: LIGHT_TEMP.elf
 	@echo 'Invoking: AVR Create Extended Listing'
-	-avr-objdump -h -S ADC.elf  >"ADC.lss"
+	-avr-objdump -h -S LIGHT_TEMP.elf  >"LIGHT_TEMP.lss"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-ADC.hex: ADC.elf
+LIGHT_TEMP.hex: LIGHT_TEMP.elf
 	@echo 'Create Flash image (ihex format)'
-	-avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex ADC.elf  "ADC.hex"
+	-avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex LIGHT_TEMP.elf  "LIGHT_TEMP.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-sizedummy: ADC.elf
+sizedummy: LIGHT_TEMP.elf
 	@echo 'Invoking: Print Size'
-	-avr-size --format=avr --mcu=atmega32 ADC.elf
+	-avr-size --format=avr --mcu=atmega32 LIGHT_TEMP.elf
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(ASM_DEPS)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS)$(LSS)$(C_DEPS) ADC.elf
+	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(ASM_DEPS)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS)$(LSS)$(C_DEPS) LIGHT_TEMP.elf
 	-@echo ' '
 
 secondary-outputs: $(LSS) $(FLASH_IMAGE) $(SIZEDUMMY)

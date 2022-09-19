@@ -61,7 +61,7 @@
 #define DIO_u8DIR_PIN_23       DIO_OUTPUT
 /* Group D */
 #define DIO_u8DIR_PIN_24       DIO_OUTPUT
-#define DIO_u8DIR_PIN_25       DIO_OUTPUT
+#define DIO_u8DIR_PIN_25       DIO_INPUT
 #define DIO_u8DIR_PIN_26       DIO_OUTPUT
 #define DIO_u8DIR_PIN_27       DIO_OUTPUT
 #define DIO_u8DIR_PIN_28       DIO_OUTPUT
