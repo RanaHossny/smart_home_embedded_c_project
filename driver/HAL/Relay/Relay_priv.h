@@ -28,7 +28,7 @@
 /********************************************************************************/
 #ifndef RELAY_PRIV_H
 #define RELAY_PRIV_H
-#include "RELAY_cfg.h"
+#include "Relay_cfg.h"
 extern uint8 u8RelayPinMapping[RELAY_MAX_NUM];
 
 #endif

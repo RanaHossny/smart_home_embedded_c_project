@@ -1,5 +1,6 @@
+#include "STD_Types.h"
 /********************************************************************************/
-/**    File Name: SPI.c                                                         */
+/**    File Name: SPI.h                                                         */
 /**  Description: Implementation of the TIM0 contain configuration for the module*/
 /**-----------------------------------------------------------------------------*/
 /**  CODING LANGUAGE :  C                                                       */
@@ -26,93 +27,89 @@
 
 /********************************************************************************/
 
+#include "BIT_MATH.h"
+#include "spi.h"
+#include "spi_cfg.h"
+#include "spi_priv.h"
+uint8 u8_bus_contention ;
+uint8 u8_collision_Flag ;
+uint8 u8_read_buffer;
+void spi_void_intial(void){
 
-#include "STD_Types.h"
-#include "BIT_Math.h"
+	SET_BIT( SPCR , 6) ;
+	SET_BIT( SPCR , 0) ;
+	SPCR|=DATA_ORDER;
+	SPCR|=SPI_STATE;
+	SPCR|=SPI_CLK_POLARITY;
+#if SPI_STATE == MASTER
+	SPCR|= SCK_FREQUENCY;
+#if SCK_FREQUENCY==FREQ_DIV_2
+	SET_BIT( SPSR , 0) ;
+    #elif SCK_FREQUENCY==FREQ_DIV_8
+	SET_BIT( SPSR , 0) ;
+    #elif SCK_FREQUENCY==FREQ_DIV_32
+	SET_BIT( SPSR , 0) ;
+   #endif
+#endif
 
-#include "DIO.h"
-#include "SPI.h"
-#include "SPI_cfg.h"
-#include "SPI_priv.h"
-
-
-uint8 SPI_u8RxBuffer ; 
-uint8 SPI_u8TxState  ;
-void SPI_voidInit(void)
-{
-	/*Enable SPI */
-	SPCR = (1<<6)|(1<<4)|(1<<0);
 
 }
-
-
-void SPI_u8DataTransfer_Sync(uint8 u8DataCpy)
+uint8 SPI_u8DataTransfer_Sync(uint8 u8DataCpy)
 {
 	SPDR  =  u8DataCpy ;
-
-	while(!(SPSR & (1<<7)));
-	//DIO_enuWritePin(DIO_u8PIN_0,DIO_u8HIGH);
-
+	while (GET_BIT(SPSR , 7) == 0);
+	return SPDR ;
+}
+void spi_void_read_Syc(uint8 * u8_value_cpy){
+	while(!(SPSR &(1<<7)));
+	*u8_value_cpy=SPDR;
+}
+uint8 spi_uint8_read_Asyc(void){
+	return u8_read_buffer;
 }
 
-void SPI_voidWriteData_Async(uint8 u8DataCpy)
-{
-	SPDR =  u8DataCpy ;
-	SPI_u8TxState = 2;
+void spi_void_write_Syc(uint8 u8_value_cpy){
+	SPDR=u8_value_cpy;
 }
 
-tenuWriteState SPI_enuWriteStatus_Async(void)
-{
-	tenuWriteState enuReturnStateLoc ;
-	if (SPI_u8TxState == 1)
-	{
-		enuReturnStateLoc = WRITE_DONE ;
-		SPI_u8TxState = 0 ;
-	}
-	else if (SPI_u8TxState == 2 )
-	{
-		enuReturnStateLoc = WRITE_PENDING ;
-	}
-	else if (SPI_u8TxState == 3 )
-	{
-		enuReturnStateLoc = WRITE_NOT_DONE ;
-		SPI_u8TxState = 0 ;
-	}
-	else
-	{
-		enuReturnStateLoc = IDLE ;
-	}
-
-	return enuReturnStateLoc ;
+void spi_void_enable(void){
+	SET_BIT( SPCR , 6) ;	
 }
-
-uint8 SPI_u8ReadData_Async(void)
-{
-	return SPI_u8RxBuffer ;
+void spi_void_disable(void ){
+	CLR_BIT( SPCR , 6) ;
 }
-
-void SPI_voidSetInterruptState(uint8 u8IntStateCpy)
-{
-	if (u8IntStateCpy == SPI_INT_ENABLE )
-	{
-		SET_BIT (SPCR , 7 ) ;
+void spi_void_InterputEnable(void){		
+	SET_BIT( SPCR , 7) ;
+}
+void spi_void_InterputDisable(void ){
+	CLR_BIT( SPCR , 7) ;
+}
+tenuErrorSpiStatus spi_tenuspi_state(void){
+	tenuErrorSpiStatus state=E_OK_WRITE_DONE;
+	if(u8_bus_contention==1){
+		state=E_NOK_BUS_CONTENTION;
+		u8_bus_contention=0;
 	}
-	else
-	{
-		CLR_BIT (SPCR , 7 ) ;
+	else if(u8_collision_Flag ==1) {
+		state=E_NOK_COLLISION;
+		u8_collision_Flag=0;
+	}
+	else {
+
 	}
 }
 
-void __vector_12 (void) __attribute__ ((signal , used)) ;
-void __vector_12 (void)
-{   
-	if ( GET_BIT(SPSR , 6))
-	{
-		SPI_u8TxState  = 3 ;
+void __vector_12 (void ) __attribute__((signal,used));
+void __vector_12 (void ){
+
+	if((GET_BIT(SPCR , 4)==0)&&(SPI_STATE==MASTER)){
+		u8_bus_contention=1;
 	}
-	else 
-	{
-		SPI_u8TxState  = 1 ;
+	else if((GET_BIT(SPSR , 6)==1)){
+		u8_collision_Flag =1;
 	}
-	SPI_u8RxBuffer = SPDR ;
+	else{
+		u8_read_buffer=SPDR;
+	}
+	CLR_BIT( SPCR , 7) ;
 }

@@ -29,15 +29,15 @@
 #include "STD_Types.h"
 
 #include "DIO.h"
-#include "RELAY.h"
-#include "RELAY_cfg.h"
-#include "RELAY_priv.h"
+#include "Relay.h"
+#include "Relay_cfg.h"
+#include "Relay_priv.h"
 
 
 tenuErrorStatus tenu_Relay_enu_on (uint8 u8RelayNumCpy ){
 	tenuErrorStatus error = E_OK;
 		if(u8RelayNumCpy<RELAY_MAX_NUM){
-			DIO_enuWritePin(u8RelayNumCpy , DIO_u8HIGH);
+			DIO_enuWritePin(u8RelayPinMapping.u8RelayNumCpy , DIO_u8HIGH);
 		}
 		else{
 			error=E_NOK_PARAM_OUT_OF_RANGE;
@@ -47,7 +47,7 @@ tenuErrorStatus tenu_Relay_enu_on (uint8 u8RelayNumCpy ){
 tenuErrorStatus tenu_Relay_enu_off (uint8 u8RelayNumCpy ){
 	tenuErrorStatus error = E_OK;
 		if(u8RelayNumCpy<RELAY_MAX_NUM){
-			DIO_enuWritePin(u8RelayNumCpy , DIO_u8LOW);
+			DIO_enuWritePin(u8RelayPinMapping.u8RelayNumCpy , DIO_u8LOW);
 		}
 		else{
 			error=E_NOK_PARAM_OUT_OF_RANGE;
