@@ -10,6 +10,7 @@
 #include"STD_Types.h"
 #include"BIT_Math.h"
 #include"DIO.h"
+#include "spi.h"
 #include"GIE.h"
 #include "EXTINT0.h"
 #include "TIM0.h"
@@ -24,6 +25,7 @@ void main(void){
 	GIE_voidDisable();
 	EXTINT0_voidDisable();
 	DIO_voidInit();
+	SPI_voidInit();
 	LCD_voidInit();
 	EXTINT0_voidInit();
 	ultrasonic_void_intial();
@@ -43,7 +45,10 @@ void main(void){
 		_delay_ms(1000) ;
 		while(read !='1'){
 			uart_void_read (&read);
+
 		}
+		DIO_enuWritePin(DIO_u8PIN_28,DIO_u8HIGH);
+		SPI_u8DataTransfer_Sync('a');
 		}
 	}
 }

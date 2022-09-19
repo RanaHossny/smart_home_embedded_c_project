@@ -48,8 +48,9 @@
 #define DIO_u8DIR_PIN_11       DIO_OUTPUT
 #define DIO_u8DIR_PIN_12       DIO_OUTPUT
 #define DIO_u8DIR_PIN_13       DIO_OUTPUT
-#define DIO_u8DIR_PIN_14       DIO_OUTPUT
+#define DIO_u8DIR_PIN_14       DIO_INPUT
 #define DIO_u8DIR_PIN_15       DIO_OUTPUT
+
 /* Group C */
 #define DIO_u8DIR_PIN_16       DIO_OUTPUT
 #define DIO_u8DIR_PIN_17       DIO_OUTPUT

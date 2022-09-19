@@ -9,6 +9,7 @@ C_SRCS += \
 ../GIE.c \
 ../LCD.c \
 ../LCD_cfg.c \
+../SPI.c \
 ../TIM0.c \
 ../main.c \
 ../uart.c \
@@ -21,6 +22,7 @@ OBJS += \
 ./GIE.o \
 ./LCD.o \
 ./LCD_cfg.o \
+./SPI.o \
 ./TIM0.o \
 ./main.o \
 ./uart.o \
@@ -33,6 +35,7 @@ C_DEPS += \
 ./GIE.d \
 ./LCD.d \
 ./LCD_cfg.d \
+./SPI.d \
 ./TIM0.d \
 ./main.d \
 ./uart.d \
